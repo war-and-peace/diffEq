@@ -25,12 +25,22 @@ QLineEdit{
 	color: blue;
 }
 
-background: darkblue;</string>
+MainWindow{
+	background-color: #0e1111;
+}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QTabWidget" name="tabWidget">
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QTabWidget{
+	background-color: #006666;
+}</string>
+      </property>
       <property name="currentIndex">
        <number>-1</number>
       </property>
@@ -79,7 +89,7 @@ background: darkblue;</string>
       <item>
        <widget class="QLineEdit" name="lineEdit_3">
         <property name="text">
-         <string>0.2</string>
+         <string>0.1</string>
         </property>
        </widget>
       </item>
@@ -96,6 +106,19 @@ background: darkblue;</string>
          <string>-1.0</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="QPushButton" name="Solve">

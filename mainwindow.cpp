@@ -12,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->addTab(new QWidget(), "Graph");
     ui->tabWidget->addTab(new QWidget(), "Graph");
     ui->tabWidget->addTab(new QWidget(), "Graph");
+    //QPalette pal = ui->tabWidget->palette();
+    //pal.setColor(ui->tabWidget->backgroundRole(), QColor::fromRgb(QRgb(0e1111)));
+    //pal.setColor(QPalette::Base, Qt::red);
+    //ui->tabWidget->setPalette(pal);
     on_Solve_clicked();
 }
 
@@ -22,7 +26,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-    /*
     if(index == 0){
         ui->zoomIn->setVisible(false);
         ui->zoomOut->setVisible(false);
@@ -31,7 +34,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         ui->zoomIn->setVisible(true);
         ui->zoomOut->setVisible(true);
         ui->Reset->setVisible(true);
-    }*/
+    }
 }
 
 void MainWindow::on_Solve_clicked()
@@ -109,6 +112,14 @@ void MainWindow::on_Solve_clicked()
     table = new QTableWidget();
     table->setColumnCount(5);
     table->setRowCount(static_cast<int>(t[2].size()));
+    QPalette pal = table->palette();
+    pal.setColor(QPalette::Background, Qt::red);
+    table->setPalette(pal);
+    table->setAutoFillBackground(true);
+    pal = table->horizontalHeader()->palette();
+    pal.setColor(table->horizontalHeader()->backgroundRole(), Qt::red);
+    table->horizontalHeader()->setPalette(pal);
+    table->setStyleSheet("QTableWidget{background-color: #1c222e;}");
     QStringList strlist;
     strlist.append("x");
     strlist.append("Exact");
