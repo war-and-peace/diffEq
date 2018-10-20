@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->addTab(new QWidget(), "Graph");
     ui->tabWidget->addTab(new QWidget(), "Graph");
     ui->tabWidget->addTab(new QWidget(), "Graph");
-    on_pushButton_clicked();
+    on_Solve_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -20,7 +20,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    /*
+    if(index == 0){
+        ui->zoomIn->setVisible(false);
+        ui->zoomOut->setVisible(false);
+        ui->Reset->setVisible(false);
+    }else{
+        ui->zoomIn->setVisible(true);
+        ui->zoomOut->setVisible(true);
+        ui->Reset->setVisible(true);
+    }*/
+}
+
+void MainWindow::on_Solve_clicked()
 {
     QString str1 = ui->lineEdit->text(), str2 = ui->lineEdit_2->text();
     QString str3 = ui->lineEdit_3->text(), str4 = ui->lineEdit_4->text();
@@ -33,10 +47,10 @@ void MainWindow::on_pushButton_clicked()
     series2 = new QLineSeries();
     series3 = new QLineSeries();
     series4 = new QLineSeries();
-    series00 = new QLineSeries();
-    series01 = new QLineSeries();
-    series02 = new QLineSeries();
-    series03 = new QLineSeries();
+    series00 = new QLineSeries(); series00->setName("Exact");
+    series01 = new QLineSeries(); series01->setName("Euler's method");
+    series02 = new QLineSeries(); series02->setName("Improved Euler's method");
+    series03 = new QLineSeries(); series03->setName("Runga-Kutta");
     for(size_t i = 0;i < t[2].size();i ++){
         series0->append(static_cast<qreal>(t[0][i]._1), static_cast<qreal>(t[0][i]._2));
         series1->append(static_cast<qreal>(t[2][i]._1), static_cast<qreal>(t[2][i]._2));
@@ -53,6 +67,7 @@ void MainWindow::on_pushButton_clicked()
         chart0->legend()->hide();
         chart0->addSeries(series0);
         chart0->setTitle("Exact solution for -x-y function");
+        chart0->setTheme(QChart::ChartThemeDark);
     }
 
     {
@@ -60,6 +75,7 @@ void MainWindow::on_pushButton_clicked()
         chart1->legend()->hide();
         chart1->addSeries(series1);
         chart1->setTitle("Euler\'s method for -x-y function");
+        chart1->setTheme(QChart::ChartThemeDark);
     }
 
     {
@@ -67,6 +83,7 @@ void MainWindow::on_pushButton_clicked()
         chart2->legend()->hide();
         chart2->addSeries(series2);
         chart2->setTitle("Improved Euler\'s method for -x-y function");
+        chart2->setTheme(QChart::ChartThemeDark);
     }
 
     {
@@ -74,17 +91,20 @@ void MainWindow::on_pushButton_clicked()
         chart3->legend()->hide();
         chart3->addSeries(series3);
         chart3->setTitle("Runga-Kutta\'s method for -x-y function");
+        chart3->setTheme(QChart::ChartThemeDark);
     }
 
     {
         chart4 = new QChart();
+        chart4->legend()->attachToChart();
 
         //chart4->legend()->hide();
         chart4->addSeries(series00);
         chart4->addSeries(series01);
         chart4->addSeries(series02);
         chart4->addSeries(series03);
-        chart4->setTitle("Runga-Kutta\'s method for -x-y function");
+        chart4->setTitle("Comparing the results");
+        chart4->setTheme(QChart::ChartThemeDark);
     }
     table = new QTableWidget();
     table->setColumnCount(5);
@@ -136,6 +156,8 @@ void MainWindow::on_pushButton_clicked()
         chart0->setAxisX(xAxis, series0);
         chart0->setAxisY(yAxis, series0);
         chartView0 = new QChartView(chart0);
+        chartView0->setRubberBand(QChartView::HorizontalRubberBand);
+        chartView0->setRubberBand(QChartView::VerticalRubberBand);
         chartView0->setRenderHint(QPainter::Antialiasing);
     }
 
@@ -207,7 +229,44 @@ void MainWindow::on_pushButton_clicked()
     ui->tabWidget->addTab(chartView4, "Compare");
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_Exit_clicked()
 {
     this->close();
+}
+
+void MainWindow::on_zoomIn_clicked()
+{
+    int index = ui->tabWidget->currentIndex();
+    switch(index){
+        case 1: chart0->zoomIn();break;
+        case 2: chart1->zoomIn();break;
+        case 3: chart2->zoomIn();break;
+        case 4: chart3->zoomIn();break;
+        case 5: chart4->zoomIn();break;
+    }
+}
+
+void MainWindow::on_zoomOut_clicked()
+{
+    int index = ui->tabWidget->currentIndex();
+    switch(index){
+        case 1: chart0->zoomOut();break;
+        case 2: chart1->zoomOut();break;
+        case 3: chart2->zoomOut();break;
+        case 4: chart3->zoomOut();break;
+        case 5: chart4->zoomOut();break;
+    }
+}
+
+void MainWindow::on_Reset_clicked()
+{
+    int index = ui->tabWidget->currentIndex();
+    switch(index){
+        case 1: chart0->zoomReset();break;
+        case 2: chart1->zoomReset();break;
+        case 3: chart2->zoomReset();break;
+        case 4: chart3->zoomReset();break;
+        case 5: chart4->zoomReset();break;
+    }
+
 }

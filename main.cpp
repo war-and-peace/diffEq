@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow window;
+    window.setWindowTitle("Differential equations");
     window.showMaximized();
     return a.exec();
 }

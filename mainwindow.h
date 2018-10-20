@@ -36,9 +36,18 @@ public:
     QChartView *chartView0, *chartView1, *chartView2, *chartView3, *chartView4;
     QTableWidget *table;
 private slots:
-    void on_pushButton_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_tabWidget_currentChanged(int index);
+
+    void on_Solve_clicked();
+
+    void on_Exit_clicked();
+
+    void on_zoomIn_clicked();
+
+    void on_zoomOut_clicked();
+
+    void on_Reset_clicked();
 
 private:
     Ui::MainWindow *ui;
