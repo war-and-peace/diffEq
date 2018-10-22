@@ -49,8 +49,13 @@ private slots:
 
     void on_Reset_clicked();
 
+    void something();
+
+    void on_upButton_clicked();
+
 private:
     Ui::MainWindow *ui;
+
 };
 
 #endif // MAINWINDOW_H

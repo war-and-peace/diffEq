@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "mproblem.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -12,10 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->addTab(new QWidget(), "Graph");
     ui->tabWidget->addTab(new QWidget(), "Graph");
     ui->tabWidget->addTab(new QWidget(), "Graph");
-    //QPalette pal = ui->tabWidget->palette();
-    //pal.setColor(ui->tabWidget->backgroundRole(), QColor::fromRgb(QRgb(0e1111)));
-    //pal.setColor(QPalette::Base, Qt::red);
-    //ui->tabWidget->setPalette(pal);
+    ui->actionExit = new QAction(tr("&Exit"), this);
+    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::on_Exit_clicked);
     on_Solve_clicked();
 }
 
@@ -112,14 +111,14 @@ void MainWindow::on_Solve_clicked()
     table = new QTableWidget();
     table->setColumnCount(5);
     table->setRowCount(static_cast<int>(t[2].size()));
-    QPalette pal = table->palette();
-    pal.setColor(QPalette::Background, Qt::red);
-    table->setPalette(pal);
-    table->setAutoFillBackground(true);
-    pal = table->horizontalHeader()->palette();
-    pal.setColor(table->horizontalHeader()->backgroundRole(), Qt::red);
-    table->horizontalHeader()->setPalette(pal);
-    table->setStyleSheet("QTableWidget{background-color: #1c222e;}");
+    //QPalette pal = table->palette();
+    //pal.setColor(QPalette::Background, Qt::red);
+    //table->setPalette(pal);
+    //table->setAutoFillBackground(true);
+    //pal = table->horizontalHeader()->palette();
+    //pal.setColor(table->horizontalHeader()->backgroundRole(), Qt::red);
+    //table->horizontalHeader()->setPalette(pal);
+    //table->setStyleSheet("QTableWidget{background-color: #1c222e;}");
     QStringList strlist;
     strlist.append("x");
     strlist.append("Exact");
@@ -232,12 +231,14 @@ void MainWindow::on_Solve_clicked()
     for(int i{};i < nColumn;i ++){
         ui->tabWidget->removeTab(0);
     }
+
     ui->tabWidget->addTab(table, "Data");
     ui->tabWidget->addTab(chartView0, "Exact");
     ui->tabWidget->addTab(chartView1, "Euler");
     ui->tabWidget->addTab(chartView2, "Improved Euler");
     ui->tabWidget->addTab(chartView3, "Runga-Kutta");
     ui->tabWidget->addTab(chartView4, "Compare");
+    something();
 }
 
 void MainWindow::on_Exit_clicked()
@@ -279,5 +280,17 @@ void MainWindow::on_Reset_clicked()
         case 4: chart3->zoomReset();break;
         case 5: chart4->zoomReset();break;
     }
+
+}
+
+void MainWindow::something(){
+    QPointF x = chartView0->mapToScene(chartView0->pos());
+    chart0->mapFromScene(x);
+    QPointF pos = chart0->mapToValue(chart0->pos(), chart0->series().back());
+    cerr << pos.x() << " " << pos.y();
+}
+
+void MainWindow::on_upButton_clicked()
+{
 
 }

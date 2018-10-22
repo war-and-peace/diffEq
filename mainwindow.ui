@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>571</width>
-    <height>337</height>
+    <width>735</width>
+    <height>364</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,10 +23,6 @@
 QLineEdit{
 	size: 10sp;
 	color: blue;
-}
-
-MainWindow{
-	background-color: #0e1111;
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -120,16 +116,6 @@ MainWindow{
         </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QPushButton" name="Solve">
-        <property name="text">
-         <string>Solve</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
     <item>
@@ -151,9 +137,24 @@ MainWindow{
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="Exit">
+       <widget class="QPushButton" name="Solve">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="text">
-         <string>Exit</string>
+         <string>Solve</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -172,9 +173,15 @@ MainWindow{
       </item>
       <item>
        <widget class="QPushButton" name="zoomIn">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>45</width>
+          <width>30</width>
           <height>0</height>
          </size>
         </property>
@@ -199,6 +206,54 @@ MainWindow{
       </item>
      </layout>
     </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="bottomMargin">
+       <number>20</number>
+      </property>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="upButton">
+        <property name="text">
+         <string>Up</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="downButton">
+        <property name="text">
+         <string>Down</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="leftButton">
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="rightButton">
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -206,7 +261,7 @@ MainWindow{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>571</width>
+     <width>735</width>
      <height>22</height>
     </rect>
    </property>
@@ -239,5 +294,22 @@ MainWindow{
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionExit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
