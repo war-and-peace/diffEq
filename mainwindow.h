@@ -43,15 +43,7 @@ private slots:
 
     void on_Exit_clicked();
 
-    void on_zoomIn_clicked();
-
-    void on_zoomOut_clicked();
-
-    void on_Reset_clicked();
-
     void something();
-
-    void on_upButton_clicked();
 
 private:
     Ui::MainWindow *ui;

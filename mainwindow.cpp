@@ -25,15 +25,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-    if(index == 0){
-        ui->zoomIn->setVisible(false);
-        ui->zoomOut->setVisible(false);
-        ui->Reset->setVisible(false);
-    }else{
-        ui->zoomIn->setVisible(true);
-        ui->zoomOut->setVisible(true);
-        ui->Reset->setVisible(true);
-    }
+    return;
 }
 
 void MainWindow::on_Solve_clicked()
@@ -118,7 +110,7 @@ void MainWindow::on_Solve_clicked()
     //pal = table->horizontalHeader()->palette();
     //pal.setColor(table->horizontalHeader()->backgroundRole(), Qt::red);
     //table->horizontalHeader()->setPalette(pal);
-    //table->setStyleSheet("QTableWidget{background-color: #1c222e;}");
+    //table->setStyleSheet("QTableWidget{background-color: #1c222e;}");zz
     QStringList strlist;
     strlist.append("x");
     strlist.append("Exact");
@@ -246,51 +238,9 @@ void MainWindow::on_Exit_clicked()
     this->close();
 }
 
-void MainWindow::on_zoomIn_clicked()
-{
-    int index = ui->tabWidget->currentIndex();
-    switch(index){
-        case 1: chart0->zoomIn();break;
-        case 2: chart1->zoomIn();break;
-        case 3: chart2->zoomIn();break;
-        case 4: chart3->zoomIn();break;
-        case 5: chart4->zoomIn();break;
-    }
-}
-
-void MainWindow::on_zoomOut_clicked()
-{
-    int index = ui->tabWidget->currentIndex();
-    switch(index){
-        case 1: chart0->zoomOut();break;
-        case 2: chart1->zoomOut();break;
-        case 3: chart2->zoomOut();break;
-        case 4: chart3->zoomOut();break;
-        case 5: chart4->zoomOut();break;
-    }
-}
-
-void MainWindow::on_Reset_clicked()
-{
-    int index = ui->tabWidget->currentIndex();
-    switch(index){
-        case 1: chart0->zoomReset();break;
-        case 2: chart1->zoomReset();break;
-        case 3: chart2->zoomReset();break;
-        case 4: chart3->zoomReset();break;
-        case 5: chart4->zoomReset();break;
-    }
-
-}
-
 void MainWindow::something(){
     QPointF x = chartView0->mapToScene(chartView0->pos());
     chart0->mapFromScene(x);
     QPointF pos = chart0->mapToValue(chart0->pos(), chart0->series().back());
     cerr << pos.x() << " " << pos.y();
-}
-
-void MainWindow::on_upButton_clicked()
-{
-
 }
