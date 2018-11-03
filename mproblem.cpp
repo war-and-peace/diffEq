@@ -68,10 +68,10 @@ vector<pair<LD, LD> > runge_kutte(LD x0, LD y0, LD h, LD X){
     return a;
 }
 
-vector<pair<LD, LD> > euler_error(const vector<pair<LD, LD> > &euler_val, const vector<pair<LD, LD> > &exact_val){
+vector<pair<LD, LD> > error_function(const vector<pair<LD, LD> > &euler_val, const vector<pair<LD, LD> > &exact_val){
     vector<pair<LD, LD> > sol;
-    LD maximum{static_cast<LD>(-INFINITY)};
-    cerr << INFINITY << endl;
+    LD maximum{static_cast<LD>(numeric_limits<LD>::lowest())};
+    cerr << numeric_limits<LD>::lowest() << endl;
 
     for(size_t i{0};i < euler_val.size();i ++){
         sol.push_back({euler_val[i].first, fabs(euler_val[i].second - exact_val[i].second)});
@@ -79,6 +79,7 @@ vector<pair<LD, LD> > euler_error(const vector<pair<LD, LD> > &euler_val, const 
     }
     return sol;
 }
+
 
 vector<vector<pair<LD, LD> > > solve(LD x, LD y, LD h, LD X){
     vector<vector<pair<LD, LD> > > t(9);
@@ -88,6 +89,8 @@ vector<vector<pair<LD, LD> > > solve(LD x, LD y, LD h, LD X){
     t[2] = euler_method(x, y, h, X);
     t[3] = euler_improved_method(x, y, h, X);
     t[4] = runge_kutte(x, y, h, X);
-    t[5] = euler_error(t[2], t[0]);
+    t[5] = error_function(t[2], t[0]);
+    t[6] = error_function(t[3], t[0]);
+    t[7] = error_function(t[4], t[0]);
     return t;
 }

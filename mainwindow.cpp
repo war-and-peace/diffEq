@@ -33,6 +33,8 @@ void MainWindow::on_Solve_clicked()
     series3 = new QLineSeries();
     series4 = new QLineSeries();
     series5 = new QLineSeries();
+    series6 = new QLineSeries();
+    series7 = new QLineSeries();
 
     series00 = new QLineSeries(); series00->setName("Exact");
     series01 = new QLineSeries(); series01->setName("Euler's method");
@@ -49,6 +51,8 @@ void MainWindow::on_Solve_clicked()
         series03->append(static_cast<qreal>(t[4][i]._1), static_cast<qreal>(t[4][i]._2));
         series4->append(static_cast<qreal>(t[4][i]._1), static_cast<qreal>(t[4][i]._2));
         series5->append(static_cast<qreal>(t[5][i]._1), static_cast<qreal>(t[5][i]._2));
+        series6->append(static_cast<qreal>(t[6][i]._1), static_cast<qreal>(t[6][i]._2));
+        series7->append(static_cast<qreal>(t[7][i]._1), static_cast<qreal>(t[7][i]._2));
     }
     {
         chart0 = new QChart();
@@ -103,6 +107,22 @@ void MainWindow::on_Solve_clicked()
         chart5->setTheme(QChart::ChartThemeDark);
     }
 
+    {
+        chart6 = new QChart();
+        chart6->legend()->hide();
+        chart6->addSeries(series6);
+        chart6->setTitle("Error function for Euler`s improved method");
+        chart6->setTheme(QChart::ChartThemeDark);
+    }
+
+    {
+        chart7 = new QChart();
+        chart7->legend()->hide();
+        chart7->addSeries(series7);
+        chart7->setTitle("Error function for Runga-Kutta method");
+        chart7->setTheme(QChart::ChartThemeDark);
+    }
+
     table = new QTableWidget();
     table->setColumnCount(5);
     table->setRowCount(static_cast<int>(t[2].size()));
@@ -115,9 +135,10 @@ void MainWindow::on_Solve_clicked()
     strlist.append("Runga-Kutta");
     table->setHorizontalHeaderLabels(strlist);
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    LD minY0{y0}, maxY0{y0}, minY1{y0}, maxY1{y0}, minY2{y0}, maxY2{y0}, minY3{y0}, maxY3{y0}, maxY5{0}, minY5{10000.0L};
+    LD minY0{y0}, maxY0{y0}, minY1{y0}, maxY1{y0}, minY2{y0}, maxY2{y0}, minY3{y0}, maxY3{y0},
+        maxY5{0}, minY5{10000.0L}, maxY6{0}, minY6{numeric_limits<LD>::max()}, maxY7{0}, minY7{numeric_limits<LD>::max()};
     for(size_t i{0};i < t[2].size();i ++){
-        stringstream ss;
+        //stringstream ss;
         string x, y0, y1, y2, y3;
         x = to_string(t[2][i]._1);
         y0 = to_string(t[0][i]._2);
@@ -129,6 +150,8 @@ void MainWindow::on_Solve_clicked()
         minY2 = fmin(minY2, t[3][i]._2); maxY2 = fmax(maxY2, t[3][i]._2);
         minY3 = fmin(minY3, t[4][i]._2); maxY3 = fmax(maxY3, t[4][i]._2);
         minY5 = fmin(minY5, t[5][i]._2); maxY5 =  fmax(maxY5, t[5][i]._2);
+        minY6 = fmin(minY6, t[6][i]._2); maxY6 =  fmax(maxY6, t[6][i]._2);
+        minY7 = fmin(minY7, t[7][i]._2); maxY7 =  fmax(maxY7, t[7][i]._2);
         QString xx = QString::fromStdString(x),
                yy0 = QString::fromStdString(y0),
                yy1 = QString::fromStdString(y1),
@@ -232,6 +255,34 @@ void MainWindow::on_Solve_clicked()
         chartView5->setRenderHint(QPainter::Antialiasing);
     }
 
+    {
+        QValueAxis *xAxis = new QValueAxis;
+        xAxis->setRange(static_cast<qreal>(x0), static_cast<qreal>(X));
+        xAxis->setTickCount(numberOfTicks);
+
+        QValueAxis *yAxis = new QValueAxis;
+        yAxis->setRange(static_cast<qreal>(minY6), static_cast<qreal>(maxY6));
+        yAxis->setTickCount(numberOfTicks);
+        chart6->setAxisX(xAxis, series6);
+        chart6->setAxisY(yAxis, series6);
+        chartView6 = new QChartView(chart6);
+        chartView6->setRenderHint(QPainter::Antialiasing);
+    }
+
+    {
+        QValueAxis *xAxis = new QValueAxis;
+        xAxis->setRange(static_cast<qreal>(x0), static_cast<qreal>(X));
+        xAxis->setTickCount(numberOfTicks);
+
+        QValueAxis *yAxis = new QValueAxis;
+        yAxis->setRange(static_cast<qreal>(minY7), static_cast<qreal>(maxY7));
+        yAxis->setTickCount(numberOfTicks);
+        chart7->setAxisX(xAxis, series7);
+        chart7->setAxisY(yAxis, series7);
+        chartView7 = new QChartView(chart7);
+        chartView7->setRenderHint(QPainter::Antialiasing);
+    }
+
     for(int i{};i < nCount;i ++){
         ui->tabWidget->removeTab(0);
     }
@@ -241,7 +292,9 @@ void MainWindow::on_Solve_clicked()
     ui->tabWidget->addTab(chartView1, "Euler");
     ui->tabWidget->addTab(chartView5, "Euler error");
     ui->tabWidget->addTab(chartView2, "Improved Euler");
+    ui->tabWidget->addTab(chartView6, "Improved Euler error");
     ui->tabWidget->addTab(chartView3, "Runga-Kutta");
+    ui->tabWidget->addTab(chartView7, "Runga-Kutta error");
     ui->tabWidget->addTab(chartView4, "Compare");
     something();
 }

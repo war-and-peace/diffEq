@@ -8,6 +8,8 @@
 #include <iomanip>
 #include <ios>
 #include <fstream>
+#include <numeric>
+#include <limits>
 
 using namespace std;
 using std::ios_base;
