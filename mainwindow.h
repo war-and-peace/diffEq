@@ -18,6 +18,7 @@
 #include <cmath>
 #include <numeric>
 #include <QSizePolicy>
+#include <QMessageBox>
 
 const int nCount = 9;
 
@@ -37,13 +38,14 @@ public:
     QChart *chart0, *chart1, *chart2, *chart3, *chart4, *chart5, *chart6, *chart7;
     QChartView *chartView0, *chartView1, *chartView2, *chartView3, *chartView4, *chartView5, *chartView6, *chartView7;
     QTableWidget *table;
+    QMessageBox *msg;
 private slots:
 
     void on_Solve_clicked();
 
     void on_Exit_clicked();
 
-    void something();
+    void on_About_clicked();
 
 private:
     Ui::MainWindow *ui;

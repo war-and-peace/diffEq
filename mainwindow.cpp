@@ -9,8 +9,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     for(int i{};i < nCount;i ++)
         ui->tabWidget->addTab(new QWidget(), "Data");
-
+    msg = new QMessageBox();
+    //About message to be written
+    msg->setText("Something to be written here soon...");
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::on_Exit_clicked);
+    connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::on_About_clicked);
     on_Solve_clicked();
 }
 
@@ -296,7 +299,6 @@ void MainWindow::on_Solve_clicked()
     ui->tabWidget->addTab(chartView3, "Runga-Kutta");
     ui->tabWidget->addTab(chartView7, "Runga-Kutta error");
     ui->tabWidget->addTab(chartView4, "Compare");
-    something();
 }
 
 void MainWindow::on_Exit_clicked()
@@ -304,9 +306,7 @@ void MainWindow::on_Exit_clicked()
     this->close();
 }
 
-void MainWindow::something(){
-    QPointF x = chartView0->mapToScene(chartView0->pos());
-    chart0->mapFromScene(x);
-    QPointF pos = chart0->mapToValue(chart0->pos(), chart0->series().back());
-    cerr << pos.x() << " " << pos.y();
+void MainWindow::on_About_clicked()
+{
+    msg->show();
 }
