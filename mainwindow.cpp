@@ -7,13 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->tabWidget->addTab(new QWidget(), "Data");
-    ui->tabWidget->addTab(new QWidget(), "Graph");
-    ui->tabWidget->addTab(new QWidget(), "Graph");
-    ui->tabWidget->addTab(new QWidget(), "Graph");
-    ui->tabWidget->addTab(new QWidget(), "Graph");
-    ui->tabWidget->addTab(new QWidget(), "Graph");
-    ui->actionExit = new QAction(tr("&Exit"), this);
+    for(int i{};i < nCount;i ++)
+        ui->tabWidget->addTab(new QWidget(), "Data");
+
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::on_Exit_clicked);
     on_Solve_clicked();
 }
@@ -21,11 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::on_tabWidget_currentChanged(int index)
-{
-    return;
 }
 
 void MainWindow::on_Solve_clicked()
@@ -41,6 +32,8 @@ void MainWindow::on_Solve_clicked()
     series2 = new QLineSeries();
     series3 = new QLineSeries();
     series4 = new QLineSeries();
+    series5 = new QLineSeries();
+
     series00 = new QLineSeries(); series00->setName("Exact");
     series01 = new QLineSeries(); series01->setName("Euler's method");
     series02 = new QLineSeries(); series02->setName("Improved Euler's method");
@@ -55,12 +48,13 @@ void MainWindow::on_Solve_clicked()
         series02->append(static_cast<qreal>(t[3][i]._1), static_cast<qreal>(t[3][i]._2));
         series03->append(static_cast<qreal>(t[4][i]._1), static_cast<qreal>(t[4][i]._2));
         series4->append(static_cast<qreal>(t[4][i]._1), static_cast<qreal>(t[4][i]._2));
+        series5->append(static_cast<qreal>(t[5][i]._1), static_cast<qreal>(t[5][i]._2));
     }
     {
         chart0 = new QChart();
         chart0->legend()->hide();
         chart0->addSeries(series0);
-        chart0->setTitle("Exact solution for -x-y function");
+        chart0->setTitle("Exact solution for y'=-x-y function");
         chart0->setTheme(QChart::ChartThemeDark);
     }
 
@@ -68,7 +62,7 @@ void MainWindow::on_Solve_clicked()
         chart1 = new QChart();
         chart1->legend()->hide();
         chart1->addSeries(series1);
-        chart1->setTitle("Euler\'s method for -x-y function");
+        chart1->setTitle("Euler\'s method for y'=-x-y function");
         chart1->setTheme(QChart::ChartThemeDark);
     }
 
@@ -76,7 +70,7 @@ void MainWindow::on_Solve_clicked()
         chart2 = new QChart();
         chart2->legend()->hide();
         chart2->addSeries(series2);
-        chart2->setTitle("Improved Euler\'s method for -x-y function");
+        chart2->setTitle("Improved Euler\'s method for y'=-x-y function");
         chart2->setTheme(QChart::ChartThemeDark);
     }
 
@@ -84,7 +78,7 @@ void MainWindow::on_Solve_clicked()
         chart3 = new QChart();
         chart3->legend()->hide();
         chart3->addSeries(series3);
-        chart3->setTitle("Runga-Kutta\'s method for -x-y function");
+        chart3->setTitle("Runga-Kutta\'s method for y'=-x-y function");
         chart3->setTheme(QChart::ChartThemeDark);
     }
 
@@ -100,17 +94,19 @@ void MainWindow::on_Solve_clicked()
         chart4->setTitle("Comparing the results");
         chart4->setTheme(QChart::ChartThemeDark);
     }
+
+    {
+        chart5 = new QChart();
+        chart5->legend()->hide();
+        chart5->addSeries(series5);
+        chart5->setTitle("Error function for Euler`s method");
+        chart5->setTheme(QChart::ChartThemeDark);
+    }
+
     table = new QTableWidget();
     table->setColumnCount(5);
     table->setRowCount(static_cast<int>(t[2].size()));
-    //QPalette pal = table->palette();
-    //pal.setColor(QPalette::Background, Qt::red);
-    //table->setPalette(pal);
-    //table->setAutoFillBackground(true);
-    //pal = table->horizontalHeader()->palette();
-    //pal.setColor(table->horizontalHeader()->backgroundRole(), Qt::red);
-    //table->horizontalHeader()->setPalette(pal);
-    //table->setStyleSheet("QTableWidget{background-color: #1c222e;}");zz
+
     QStringList strlist;
     strlist.append("x");
     strlist.append("Exact");
@@ -119,7 +115,7 @@ void MainWindow::on_Solve_clicked()
     strlist.append("Runga-Kutta");
     table->setHorizontalHeaderLabels(strlist);
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    LD minY0{y0}, maxY0{y0}, minY1{y0}, maxY1{y0}, minY2{y0}, maxY2{y0}, minY3{y0}, maxY3{y0};
+    LD minY0{y0}, maxY0{y0}, minY1{y0}, maxY1{y0}, minY2{y0}, maxY2{y0}, minY3{y0}, maxY3{y0}, maxY5{0}, minY5{10000.0L};
     for(size_t i{0};i < t[2].size();i ++){
         stringstream ss;
         string x, y0, y1, y2, y3;
@@ -132,6 +128,7 @@ void MainWindow::on_Solve_clicked()
         minY1 = fmin(minY1, t[2][i]._2); maxY1 = fmax(maxY1, t[2][i]._2);
         minY2 = fmin(minY2, t[3][i]._2); maxY2 = fmax(maxY2, t[3][i]._2);
         minY3 = fmin(minY3, t[4][i]._2); maxY3 = fmax(maxY3, t[4][i]._2);
+        minY5 = fmin(minY5, t[5][i]._2); maxY5 =  fmax(maxY5, t[5][i]._2);
         QString xx = QString::fromStdString(x),
                yy0 = QString::fromStdString(y0),
                yy1 = QString::fromStdString(y1),
@@ -204,6 +201,7 @@ void MainWindow::on_Solve_clicked()
         chartView3 = new QChartView(chart3);
         chartView3->setRenderHint(QPainter::Antialiasing);
     }
+
     {
         QValueAxis *xAxis = new QValueAxis;
         xAxis->setRange(static_cast<qreal>(x0), static_cast<qreal>(X));
@@ -219,14 +217,29 @@ void MainWindow::on_Solve_clicked()
         chartView4 = new QChartView(chart4);
         chartView4->setRenderHint(QPainter::Antialiasing);
     }
-    const int nColumn = 6;
-    for(int i{};i < nColumn;i ++){
+
+    {
+        QValueAxis *xAxis = new QValueAxis;
+        xAxis->setRange(static_cast<qreal>(x0), static_cast<qreal>(X));
+        xAxis->setTickCount(numberOfTicks);
+
+        QValueAxis *yAxis = new QValueAxis;
+        yAxis->setRange(static_cast<qreal>(minY5), static_cast<qreal>(maxY5));
+        yAxis->setTickCount(numberOfTicks);
+        chart5->setAxisX(xAxis, series5);
+        chart5->setAxisY(yAxis, series5);
+        chartView5 = new QChartView(chart5);
+        chartView5->setRenderHint(QPainter::Antialiasing);
+    }
+
+    for(int i{};i < nCount;i ++){
         ui->tabWidget->removeTab(0);
     }
 
     ui->tabWidget->addTab(table, "Data");
     ui->tabWidget->addTab(chartView0, "Exact");
     ui->tabWidget->addTab(chartView1, "Euler");
+    ui->tabWidget->addTab(chartView5, "Euler error");
     ui->tabWidget->addTab(chartView2, "Improved Euler");
     ui->tabWidget->addTab(chartView3, "Runga-Kutta");
     ui->tabWidget->addTab(chartView4, "Compare");

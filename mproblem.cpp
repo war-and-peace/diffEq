@@ -68,13 +68,26 @@ vector<pair<LD, LD> > runge_kutte(LD x0, LD y0, LD h, LD X){
     return a;
 }
 
+vector<pair<LD, LD> > euler_error(const vector<pair<LD, LD> > &euler_val, const vector<pair<LD, LD> > &exact_val){
+    vector<pair<LD, LD> > sol;
+    LD maximum{static_cast<LD>(-INFINITY)};
+    cerr << INFINITY << endl;
+
+    for(size_t i{0};i < euler_val.size();i ++){
+        sol.push_back({euler_val[i].first, fabs(euler_val[i].second - exact_val[i].second)});
+        maximum = max(maximum, sol.back().second);
+    }
+    return sol;
+}
+
 vector<vector<pair<LD, LD> > > solve(LD x, LD y, LD h, LD X){
-    vector<vector<pair<LD, LD> > > t(5);
+    vector<vector<pair<LD, LD> > > t(9);
     for(size_t i = 0;i < 5;i ++)t[i] = vector<pair<LD, LD> >();
     for(LD i{x}; i < X + eps; i += 0.1L)t[1].push_back(make_pair(i, i));
     t[0] = exactSolution(x, y, h, X);
     t[2] = euler_method(x, y, h, X);
     t[3] = euler_improved_method(x, y, h, X);
     t[4] = runge_kutte(x, y, h, X);
+    t[5] = euler_error(t[2], t[0]);
     return t;
 }
