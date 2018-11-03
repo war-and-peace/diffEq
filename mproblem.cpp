@@ -80,9 +80,25 @@ vector<pair<LD, LD> > error_function(const vector<pair<LD, LD> > &euler_val, con
     return sol;
 }
 
+LD maximum(const vector<pair<LD, LD> > &a){
+    LD maxNum{numeric_limits<LD>::lowest()};
+    for(auto x: a)maxNum = max(maxNum, x.second);
+    return maxNum;
+}
+
+vector<vector<pair<LD, LD> > > error_dep_h(LD x, LD y, LD X, LD h0, LD h1, LD hh){
+    vector<vector<pair<LD, LD> > > ans(3);
+    for(LD h{h0};h <= h1;h += hh){
+        vector<pair<LD, LD> > ee = euler_method(x, y, h, X); ans[0].push_back({h, maximum(ee)});
+        vector<pair<LD, LD> > eie = euler_improved_method(x, y, h, X); ans[1].push_back({h, maximum(eie)});
+        vector<pair<LD, LD> > rk = runge_kutte(x, y, h, X); ans[2].push_back({h, maximum(rk)});
+    }
+    return ans;
+}
+
 
 vector<vector<pair<LD, LD> > > solve(LD x, LD y, LD h, LD X){
-    vector<vector<pair<LD, LD> > > t(9);
+    vector<vector<pair<LD, LD> > > t(11);
     for(size_t i = 0;i < 5;i ++)t[i] = vector<pair<LD, LD> >();
     for(LD i{x}; i < X + eps; i += 0.1L)t[1].push_back(make_pair(i, i));
     t[0] = exactSolution(x, y, h, X);
@@ -92,5 +108,9 @@ vector<vector<pair<LD, LD> > > solve(LD x, LD y, LD h, LD X){
     t[5] = error_function(t[2], t[0]);
     t[6] = error_function(t[3], t[0]);
     t[7] = error_function(t[4], t[0]);
+    vector<vector<pair<LD, LD> > > temp = error_dep_h(x, y, X, 0.01L, 1.0L, 0.01L);
+    t[8] = temp[0];
+    t[9] = temp[1];
+    t[10] = temp[2];
     return t;
 }
