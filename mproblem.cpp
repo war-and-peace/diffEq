@@ -85,22 +85,32 @@ LD maximum(const vector<pair<LD, LD> > &a){
     for(auto x: a)maxNum = max(maxNum, x.second);
     return maxNum;
 }
-
+/*
+void arrange(size_t i, const pair<LD, LD> &x){
+    s890->at(i).first.first = min(s890->at(i).first.first, x.first);
+    s890->at(i).first.second = min(s890->at(i).first.second, x.second);
+    s890->at(i).second.first = max(s890->at(i).second.first, x.first);
+    s890->at(i).second.second = max(s890->at(i).second.second, x.second);
+    return;
+}
+*/
 vector<vector<pair<LD, LD> > > error_dep_h(LD x, LD y, LD X, LD h0, LD h1, LD hh){
     vector<vector<pair<LD, LD> > > ans(3);
     for(LD h{h0};h <= h1;h += hh){
-        vector<pair<LD, LD> > ee = euler_method(x, y, h, X); ans[0].push_back({h, maximum(ee)});
-
-        vector<pair<LD, LD> > eie = euler_improved_method(x, y, h, X); ans[1].push_back({h, maximum(eie)});
-        vector<pair<LD, LD> > rk = runge_kutte(x, y, h, X); ans[2].push_back({h, maximum(rk)});
+        vector<pair<LD, LD> > ee = error_function(euler_method(x, y, h, X), exactSolution(x, y, h, X));
+        //cerr << "second: " << ee[0].second << " " << ee[0].second << endl;
+                                ans[0].push_back({h, maximum(ee)});
+        vector<pair<LD, LD> > eie = error_function(euler_improved_method(x, y, h, X), exactSolution(x, y, h, X));
+                                ans[1].push_back({h, maximum(eie)});
+        vector<pair<LD, LD> > rk = error_function(runge_kutte(x, y, h, X), exactSolution(x, y, h, X));
+                                ans[2].push_back({h, maximum(rk)});
     }
     return ans;
 }
 
 
 vector<vector<pair<LD, LD> > > solve(LD x, LD y, LD h, LD X){
-    vector<vector<pair<LD, LD> > > t(11, {{MAX_DOUBLE, MIN_DOUBLE}, {MAX_DOUBLE, MIN_DOUBLE}});
-    s890 = new vector<pair<LD, LD>, pair<LD, LD> >(3);
+    vector<vector<pair<LD, LD> > > t(11);
     for(size_t i = 0;i < 5;i ++)t[i] = vector<pair<LD, LD> >();
     for(LD i{x}; i < X + eps; i += 0.1L)t[1].push_back(make_pair(i, i));
     t[0] = exactSolution(x, y, h, X);
@@ -115,4 +125,19 @@ vector<vector<pair<LD, LD> > > solve(LD x, LD y, LD h, LD X){
     t[9] = temp[1];
     t[10] = temp[2];
     return t;
+}
+
+pair<pair<LD, LD>, pair<LD, LD> > arrange(const vector<pair<LD, LD> > &a){
+    pair<pair<LD, LD>, pair<LD, LD> > t{{MAX_DOUBLE, MIN_DOUBLE}, {MAX_DOUBLE, MIN_DOUBLE}};
+    for(size_t i{};i < a.size(); ++i){
+        t.first.first = min(t.first.first, a[i].first);
+        t.first.second = min(t.first.second, a[i].second);
+        t.second.first = max(t.second.first, a[i].first);
+        t.second.second = max(t.second.second, a[i].second);
+    }
+    return t;
+}
+
+size_t fno_of_ticks(const vector<pair<LD, LD> > &a){
+    return a.size();
 }

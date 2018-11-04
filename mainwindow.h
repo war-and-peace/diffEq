@@ -20,7 +20,7 @@
 #include <QSizePolicy>
 #include <QMessageBox>
 
-const int nCount = 9;
+const int nCount = 12;
 
 QT_CHARTS_USE_NAMESPACE
 namespace Ui {

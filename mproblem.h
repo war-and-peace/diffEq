@@ -26,8 +26,8 @@ const int MAXN = 1000;
 const LD eps = 1e-9L;
 const LD MAX_DOUBLE = numeric_limits<LD>::max();
 const LD MIN_DOUBLE = numeric_limits<LD>::lowest();
-
+const LD H0{0.01L}, H1{1.0L}, HH{0.01L};
 vector<vector<pair<LD, LD> > > solve(LD x, LD y, LD h, LD X);
-vector<pair<pair<LD, LD>, pair<LD, LD> > >* s890;
-
+pair<pair<LD, LD>, pair<LD, LD> > arrange(const vector<pair<LD, LD> > &a);
+size_t fno_of_ticks(const vector<pair<LD, LD> > &a);
 #endif // MPROBLEM_H

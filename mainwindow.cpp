@@ -39,6 +39,8 @@ void MainWindow::on_Solve_clicked()
     series6 = new QLineSeries();
     series7 = new QLineSeries();
     series8 = new QLineSeries();
+    series9 = new QLineSeries();
+    series10 = new QLineSeries();
 
     series00 = new QLineSeries(); series00->setName("Exact");
     series01 = new QLineSeries(); series01->setName("Euler's method");
@@ -58,6 +60,8 @@ void MainWindow::on_Solve_clicked()
         series6->append(static_cast<qreal>(t[6][i]._1), static_cast<qreal>(t[6][i]._2));
         series7->append(static_cast<qreal>(t[7][i]._1), static_cast<qreal>(t[7][i]._2));
         series8->append(static_cast<qreal>(t[8][i]._1), static_cast<qreal>(t[8][i]._2));
+        series9->append(static_cast<qreal>(t[9][i]._1), static_cast<qreal>(t[9][i]._2));
+        series10->append(static_cast<qreal>(t[10][i]._1), static_cast<qreal>(t[10][i]._2));
     }
     {
         chart0 = new QChart();
@@ -132,8 +136,24 @@ void MainWindow::on_Solve_clicked()
         chart8 = new QChart();
         chart8->legend()->hide();
         chart8->addSeries(series8);
-        chart8->setTitle("Error for euler function with different step(h)");
+        chart8->setTitle("Error for euler method with different step(h)");
         chart8->setTheme(QChart::ChartThemeDark);
+    }
+
+    {
+        chart9 = new QChart();
+        chart9->legend()->hide();
+        chart9->addSeries(series9);
+        chart9->setTitle("Error for improved euler method with different step(h)");
+        chart9->setTheme(QChart::ChartThemeDark);
+    }
+
+    {
+        chart10 = new QChart();
+        chart10->legend()->hide();
+        chart10->addSeries(series10);
+        chart10->setTitle("Error for runga-kutta method with different step(h)");
+        chart10->setTheme(QChart::ChartThemeDark);
     }
 
     table = new QTableWidget();
@@ -297,17 +317,64 @@ void MainWindow::on_Solve_clicked()
     }
 
     {
+        int ticks{25};
+        size_t tmp = fno_of_ticks(t[8]);
+        if(tmp < 25)ticks = static_cast<int>(tmp);
+        pair<pair<LD, LD>, pair<LD, LD> > st = arrange(t[8]);
         QValueAxis *xAxis = new QValueAxis;
-        xAxis->setRange(static_cast<qreal>(x0), static_cast<qreal>(X));
-        xAxis->setTickCount(numberOfTicks);
+        xAxis->setRange(static_cast<qreal>(st.first.first), static_cast<qreal>(st.second.first));
+        xAxis->setTickCount(ticks);
+        QFont my_font("Times", 10);
+        xAxis->setLabelsFont(my_font);
 
         QValueAxis *yAxis = new QValueAxis;
-        yAxis->setRange(static_cast<qreal>(minY7), static_cast<qreal>(maxY7));
-        yAxis->setTickCount(numberOfTicks);
+        yAxis->setRange(static_cast<qreal>(st.first.second), static_cast<qreal>(st.second.second));
+        yAxis->setTickCount(min(ticks, 20));
+        yAxis->setLabelsFont(my_font);
         chart8->setAxisX(xAxis, series8);
         chart8->setAxisY(yAxis, series8);
         chartView8 = new QChartView(chart8);
         chartView8->setRenderHint(QPainter::Antialiasing);
+    }
+
+    {
+        int ticks{25};
+        size_t tmp = fno_of_ticks(t[9]);
+        if(tmp < 25)ticks = static_cast<int>(tmp);
+        pair<pair<LD, LD>, pair<LD, LD> > st = arrange(t[9]);
+        QValueAxis *xAxis = new QValueAxis;
+        xAxis->setRange(static_cast<qreal>(st.first.first), static_cast<qreal>(st.second.first));
+        xAxis->setTickCount(ticks);
+        QFont my_font("Times", 10);
+        xAxis->setLabelsFont(my_font);
+        QValueAxis *yAxis = new QValueAxis;
+        yAxis->setRange(static_cast<qreal>(st.first.second), static_cast<qreal>(st.second.second));
+        yAxis->setTickCount(min(ticks, 20));
+        yAxis->setLabelsFont(my_font);
+        chart9->setAxisX(xAxis, series9);
+        chart9->setAxisY(yAxis, series9);
+        chartView9 = new QChartView(chart9);
+        chartView9->setRenderHint(QPainter::Antialiasing);
+    }
+
+    {
+        int ticks{25};
+        size_t tmp = fno_of_ticks(t[10]);
+        if(tmp < 25)ticks = static_cast<int>(tmp);
+        pair<pair<LD, LD>, pair<LD, LD> > st = arrange(t[10]);
+        QValueAxis *xAxis = new QValueAxis;
+        xAxis->setRange(static_cast<qreal>(st.first.first), static_cast<qreal>(st.second.first));
+        xAxis->setTickCount(ticks);
+        QFont my_font("Times", 10);
+        xAxis->setLabelsFont(my_font);
+        QValueAxis *yAxis = new QValueAxis;
+        yAxis->setRange(static_cast<qreal>(st.first.second), static_cast<qreal>(st.second.second));
+        yAxis->setTickCount(min(ticks, 20));
+        yAxis->setLabelsFont(my_font);
+        chart10->setAxisX(xAxis, series10);
+        chart10->setAxisY(yAxis, series10);
+        chartView10 = new QChartView(chart10);
+        chartView10->setRenderHint(QPainter::Antialiasing);
     }
 
     for(int i{};i < nCount;i ++){
@@ -323,6 +390,9 @@ void MainWindow::on_Solve_clicked()
     ui->tabWidget->addTab(chartView3, "Runga-Kutta");
     ui->tabWidget->addTab(chartView7, "Runga-Kutta error");
     ui->tabWidget->addTab(chartView4, "Compare");
+    ui->tabWidget->addTab(chartView8, "euler error");
+    ui->tabWidget->addTab(chartView9, "imp. euler err");
+    ui->tabWidget->addTab(chartView10, "runga-kutta error");
 }
 
 void MainWindow::on_Exit_clicked()
