@@ -211,6 +211,8 @@ void MainWindow::on_Solve_clicked()
         yAxis->setRange(static_cast<qreal>(minY0), static_cast<qreal>(maxY0));
         yAxis->setTickCount(min(numberOfTicks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("y");
+        xAxis->setTitleText("x");
         chart0->setAxisX(xAxis, series0);
         chart0->setAxisY(yAxis, series0);
         chartView0 = new QChartView(chart0);
@@ -229,6 +231,8 @@ void MainWindow::on_Solve_clicked()
         yAxis->setRange(static_cast<qreal>(minY1), static_cast<qreal>(maxY1));
         yAxis->setTickCount(min(numberOfTicks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("y");
+        xAxis->setTitleText("x");
         chart1->setAxisX(xAxis, series1);
         chart1->setAxisY(yAxis, series1);
         chartView1 = new QChartView(chart1);
@@ -245,6 +249,8 @@ void MainWindow::on_Solve_clicked()
         yAxis->setRange(static_cast<qreal>(minY2), static_cast<qreal>(maxY2));
         yAxis->setTickCount(min(numberOfTicks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("y");
+        xAxis->setTitleText("x");
         chart2->setAxisX(xAxis, series2);
         chart2->setAxisY(yAxis, series2);
         chartView2 = new QChartView(chart2);
@@ -261,6 +267,8 @@ void MainWindow::on_Solve_clicked()
         yAxis->setRange(static_cast<qreal>(minY3), static_cast<qreal>(maxY3));
         yAxis->setTickCount(min(numberOfTicks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("y");
+        xAxis->setTitleText("x");
         chart3->setAxisX(xAxis, series3);
         chart3->setAxisY(yAxis, series3);
         chartView3 = new QChartView(chart3);
@@ -277,6 +285,8 @@ void MainWindow::on_Solve_clicked()
         yAxis->setRange(static_cast<qreal>(minY0), static_cast<qreal>(maxY0));
         yAxis->setTickCount(min(numberOfTicks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("y");
+        xAxis->setTitleText("x");
         chart4->addAxis(xAxis, Qt::AlignBottom);
         chart4->addAxis(yAxis, Qt::AlignLeft);
         series4->attachAxis(xAxis);
@@ -292,9 +302,12 @@ void MainWindow::on_Solve_clicked()
         QFont my_font("Times", 10);
         xAxis->setLabelsFont(my_font);
         QValueAxis *yAxis = new QValueAxis;
+        if(abs(minY5 - maxY5) <= numeric_limits<LD>::epsilon()){maxY5++;}
         yAxis->setRange(static_cast<qreal>(minY5), static_cast<qreal>(maxY5));
         yAxis->setTickCount(min(numberOfTicks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("Local absolute error");
+        xAxis->setTitleText("x");
         chart5->setAxisX(xAxis, series5);
         chart5->setAxisY(yAxis, series5);
         chartView5 = new QChartView(chart5);
@@ -308,9 +321,12 @@ void MainWindow::on_Solve_clicked()
         QFont my_font("Times", 10);
         xAxis->setLabelsFont(my_font);
         QValueAxis *yAxis = new QValueAxis;
+        if(abs(minY6 - maxY6) <= numeric_limits<LD>::epsilon()){maxY6++;}
         yAxis->setRange(static_cast<qreal>(minY6), static_cast<qreal>(maxY6));
         yAxis->setTickCount(min(numberOfTicks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("Local absolute error");
+        xAxis->setTitleText("x");
         chart6->setAxisX(xAxis, series6);
         chart6->setAxisY(yAxis, series6);
         chartView6 = new QChartView(chart6);
@@ -324,9 +340,12 @@ void MainWindow::on_Solve_clicked()
         QFont my_font("Times", 10);
         xAxis->setLabelsFont(my_font);
         QValueAxis *yAxis = new QValueAxis;
+        if(abs(minY7 - maxY7) <= numeric_limits<LD>::epsilon()){maxY7++;}
         yAxis->setRange(static_cast<qreal>(minY7), static_cast<qreal>(maxY7));
         yAxis->setTickCount(min(numberOfTicks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("Local absolute error");
+        xAxis->setTitleText("x");
         chart7->setAxisX(xAxis, series7);
         chart7->setAxisY(yAxis, series7);
         chartView7 = new QChartView(chart7);
@@ -348,6 +367,8 @@ void MainWindow::on_Solve_clicked()
         yAxis->setRange(static_cast<qreal>(st.first.second), static_cast<qreal>(st.second.second));
         yAxis->setTickCount(min(ticks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("Maximum Error");
+        xAxis->setTitleText("Step(h)");
         chart8->setAxisX(xAxis, series8);
         chart8->setAxisY(yAxis, series8);
         chartView8 = new QChartView(chart8);
@@ -368,6 +389,8 @@ void MainWindow::on_Solve_clicked()
         yAxis->setRange(static_cast<qreal>(st.first.second), static_cast<qreal>(st.second.second));
         yAxis->setTickCount(min(ticks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("Maximum Error");
+        xAxis->setTitleText("Step(h)");
         chart9->setAxisX(xAxis, series9);
         chart9->setAxisY(yAxis, series9);
         chartView9 = new QChartView(chart9);
@@ -388,6 +411,8 @@ void MainWindow::on_Solve_clicked()
         yAxis->setRange(static_cast<qreal>(st.first.second), static_cast<qreal>(st.second.second));
         yAxis->setTickCount(min(ticks, 20));
         yAxis->setLabelsFont(my_font);
+        yAxis->setTitleText("Maximum Error");
+        xAxis->setTitleText("Step(h)");
         chart10->setAxisX(xAxis, series10);
         chart10->setAxisY(yAxis, series10);
         chartView10 = new QChartView(chart10);
