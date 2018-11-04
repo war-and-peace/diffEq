@@ -10,6 +10,7 @@
 #include <fstream>
 #include <numeric>
 #include <limits>
+#include <algorithm>
 
 using namespace std;
 using std::ios_base;

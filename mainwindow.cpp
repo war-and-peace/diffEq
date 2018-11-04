@@ -10,8 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     for(int i{};i < nCount;i ++)
         ui->tabWidget->addTab(new QWidget(), "Data");
     msg = new QMessageBox();
-    //About message to be written
-    msg->setText("Something to be written here soon...");
+    msg->setText("Author: Rakhimov Abdurasul\n Year: 2018\n Innopolis University");
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::on_Exit_clicked);
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::on_About_clicked);
     on_Solve_clicked();
