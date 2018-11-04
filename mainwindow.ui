@@ -70,7 +70,7 @@ QLineEdit{
       <item>
        <widget class="QLineEdit" name="lineEdit">
         <property name="text">
-         <string>-2.0</string>
+         <string>0.0</string>
         </property>
        </widget>
       </item>
@@ -98,7 +98,7 @@ QLineEdit{
       <item>
        <widget class="QLineEdit" name="lineEdit_3">
         <property name="text">
-         <string>0.1</string>
+         <string>0.5</string>
         </property>
        </widget>
       </item>
@@ -112,7 +112,7 @@ QLineEdit{
       <item>
        <widget class="QLineEdit" name="lineEdit_4">
         <property name="text">
-         <string>-1.0</string>
+         <string>10</string>
         </property>
        </widget>
       </item>
