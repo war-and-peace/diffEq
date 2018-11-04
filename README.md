@@ -23,5 +23,10 @@
   </p>
 <div>
 <div>
-  <h3>Installation process of Qt Creator</h3>
+  <h3>
+    Executable files
+  </h3>
+  <p>
+    <strong>Linux executable.zip</strong> and <strong>Windows executable.zip</strong> files store executable files in corresponding platforms. These files are compiled from exactly the same code as in this repository using Qt Creator. Linux version of the executable might have some dependency issues while using in some linux distros.
+  </p>
 </div>
