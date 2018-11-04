@@ -90,6 +90,7 @@ vector<vector<pair<LD, LD> > > error_dep_h(LD x, LD y, LD X, LD h0, LD h1, LD hh
     vector<vector<pair<LD, LD> > > ans(3);
     for(LD h{h0};h <= h1;h += hh){
         vector<pair<LD, LD> > ee = euler_method(x, y, h, X); ans[0].push_back({h, maximum(ee)});
+
         vector<pair<LD, LD> > eie = euler_improved_method(x, y, h, X); ans[1].push_back({h, maximum(eie)});
         vector<pair<LD, LD> > rk = runge_kutte(x, y, h, X); ans[2].push_back({h, maximum(rk)});
     }
@@ -98,7 +99,8 @@ vector<vector<pair<LD, LD> > > error_dep_h(LD x, LD y, LD X, LD h0, LD h1, LD hh
 
 
 vector<vector<pair<LD, LD> > > solve(LD x, LD y, LD h, LD X){
-    vector<vector<pair<LD, LD> > > t(11);
+    vector<vector<pair<LD, LD> > > t(11, {{MAX_DOUBLE, MIN_DOUBLE}, {MAX_DOUBLE, MIN_DOUBLE}});
+    s890 = new vector<pair<LD, LD>, pair<LD, LD> >(3);
     for(size_t i = 0;i < 5;i ++)t[i] = vector<pair<LD, LD> >();
     for(LD i{x}; i < X + eps; i += 0.1L)t[1].push_back(make_pair(i, i));
     t[0] = exactSolution(x, y, h, X);

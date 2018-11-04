@@ -38,6 +38,7 @@ void MainWindow::on_Solve_clicked()
     series5 = new QLineSeries();
     series6 = new QLineSeries();
     series7 = new QLineSeries();
+    series8 = new QLineSeries();
 
     series00 = new QLineSeries(); series00->setName("Exact");
     series01 = new QLineSeries(); series01->setName("Euler's method");
@@ -56,6 +57,7 @@ void MainWindow::on_Solve_clicked()
         series5->append(static_cast<qreal>(t[5][i]._1), static_cast<qreal>(t[5][i]._2));
         series6->append(static_cast<qreal>(t[6][i]._1), static_cast<qreal>(t[6][i]._2));
         series7->append(static_cast<qreal>(t[7][i]._1), static_cast<qreal>(t[7][i]._2));
+        series8->append(static_cast<qreal>(t[8][i]._1), static_cast<qreal>(t[8][i]._2));
     }
     {
         chart0 = new QChart();
@@ -124,6 +126,14 @@ void MainWindow::on_Solve_clicked()
         chart7->addSeries(series7);
         chart7->setTitle("Error function for Runga-Kutta method");
         chart7->setTheme(QChart::ChartThemeDark);
+    }
+
+    {
+        chart8 = new QChart();
+        chart8->legend()->hide();
+        chart8->addSeries(series8);
+        chart8->setTitle("Error for euler function with different step(h)");
+        chart8->setTheme(QChart::ChartThemeDark);
     }
 
     table = new QTableWidget();
@@ -284,6 +294,20 @@ void MainWindow::on_Solve_clicked()
         chart7->setAxisY(yAxis, series7);
         chartView7 = new QChartView(chart7);
         chartView7->setRenderHint(QPainter::Antialiasing);
+    }
+
+    {
+        QValueAxis *xAxis = new QValueAxis;
+        xAxis->setRange(static_cast<qreal>(x0), static_cast<qreal>(X));
+        xAxis->setTickCount(numberOfTicks);
+
+        QValueAxis *yAxis = new QValueAxis;
+        yAxis->setRange(static_cast<qreal>(minY7), static_cast<qreal>(maxY7));
+        yAxis->setTickCount(numberOfTicks);
+        chart8->setAxisX(xAxis, series8);
+        chart8->setAxisY(yAxis, series8);
+        chartView8 = new QChartView(chart8);
+        chartView8->setRenderHint(QPainter::Antialiasing);
     }
 
     for(int i{};i < nCount;i ++){

@@ -24,7 +24,10 @@ using std::string;
 
 const int MAXN = 1000;
 const LD eps = 1e-9L;
+const LD MAX_DOUBLE = numeric_limits<LD>::max();
+const LD MIN_DOUBLE = numeric_limits<LD>::lowest();
 
 vector<vector<pair<LD, LD> > > solve(LD x, LD y, LD h, LD X);
+vector<pair<pair<LD, LD>, pair<LD, LD> > >* s890;
 
 #endif // MPROBLEM_H
